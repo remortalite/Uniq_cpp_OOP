@@ -1,0 +1,42 @@
+#ifndef ARRAY_HPP
+#define ARRAY_HPP
+
+#include <initializer_list>
+
+class Arr
+{
+	public:
+		Arr();
+
+		~Arr();
+
+		// use fillRand()
+		Arr(int length);
+
+		Arr(const std::initializer_list<int> &list);
+
+		void fillRand(int length);
+
+		void fillDec(int length);
+
+		void fillInc(int length);
+
+		void print();
+
+		void setRange(int min, int max);
+		
+		// deallocate memory of an array, set length to zero
+		void reset();
+
+	private:
+		int *m_array;
+		int m_length;
+
+		int m_rangeMin;
+		int m_rangeMax;
+
+		void allocateMemory(int length);
+		
+};
+
+#endif // #ifndef ARRAY_HPP
