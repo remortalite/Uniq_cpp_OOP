@@ -5,38 +5,37 @@
 
 class Arr
 {
-	public:
-		Arr();
+public:
+    Arr();
 
-		~Arr();
+    ~Arr();
 
-		// use fillRand()
-		Arr(int length);
+    // create empty array
+    Arr(int length);
 
-		Arr(const std::initializer_list<int> &list);
+    Arr(const std::initializer_list<int> &list);
 
-		void fillRand(int length);
+    void fillRand(int length);
 
-		void fillDec(int length);
+    void fillDec(int length);
 
-		void fillInc(int length);
+    void fillInc(int length);
 
-		void print();
+    void print();
 
-		void setRange(int min, int max);
-		
-		// deallocate memory of an array, set length to zero
-		void reset();
+    void setRange(int min, int max);
 
-	private:
-		int *m_array;
-		int m_length;
+    // deallocate memory of an array, set length to zero
+    void reset();
 
-		int m_rangeMin;
-		int m_rangeMax;
+private:
+    int *m_array;
+    int m_length;
 
-		void allocateMemory(int length);
-		
+    int m_rangeMin = 0;
+    int m_rangeMax = 0;
+
+    void allocateMemory(int length);
 };
 
 #endif // #ifndef ARRAY_HPP
