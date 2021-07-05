@@ -5,7 +5,6 @@
 
 int main()
 {
-
     srand(time(0));
 
     Arr array;
@@ -24,6 +23,9 @@ int main()
 
     Arr array2 = { 1, 2, 3, 4, -5, -6, -7, -8 };
     array2.print();
+
+    array2.checkSum();
+    array2.runNumber();
 
     return 0;
 }

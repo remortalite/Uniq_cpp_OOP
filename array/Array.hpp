@@ -15,18 +15,19 @@ public:
 
     Arr(const std::initializer_list<int> &list);
 
-    void fillRand(int length);
-
-    void fillDec(int length);
-
-    void fillInc(int length);
+    // deallocate memory of an array, set length to zero
+    void reset();
 
     void print();
 
     void setRange(int min, int max);
 
-    // deallocate memory of an array, set length to zero
-    void reset();
+    void fillRand(int length);
+    void fillDec(int length);
+    void fillInc(int length);
+
+    int checkSum();
+    int runNumber();
 
 private:
     int *m_array;

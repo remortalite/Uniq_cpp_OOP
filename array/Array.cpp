@@ -23,7 +23,6 @@ Arr::Arr(const std::initializer_list<int> &list) : Arr(list.size())
         m_array[count++] = element;
 }
 
-// private
 void Arr::allocateMemory(int length)
 {
     assert(length > 0);
@@ -85,4 +84,23 @@ void Arr::print()
     for (int i = 0; i < m_length; ++i)
         std::cout << m_array[i] << " ";
     std::cout << std::endl;
+}
+
+int Arr::checkSum()
+{
+    int checkSum = 0;
+    for (int i = 0; i < m_length; ++i)
+        checkSum += m_array[i];
+    std::cout << "checkSum:  " << checkSum << std::endl;
+    return checkSum;
+}
+
+int Arr::runNumber()
+{
+    int count = 1;
+    for (int i = 1; i < m_length; ++i)
+        if (m_array[i] < m_array[i - 1])
+            ++count;
+    std::cout << "runNumber: " << count << std::endl;
+    return count;
 }
