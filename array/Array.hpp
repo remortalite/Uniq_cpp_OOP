@@ -20,6 +20,8 @@ public:
 
     void print();
 
+    int length();
+
     void setRange(int min, int max);
 
     void fillRand(int length);
@@ -28,6 +30,10 @@ public:
 
     int checkSum();
     int runNumber();
+
+    void swap(int index1, int index2);
+
+    int &operator[](const int index);
 
 private:
     int *m_array;

@@ -32,7 +32,7 @@ void Arr::allocateMemory(int length)
 
 void Arr::setRange(int min, int max)
 {
-    assert(min < max);
+    assert(min <= max);
     m_rangeMin = min;
     m_rangeMax = max;
 }
@@ -77,6 +77,8 @@ void Arr::reset()
     delete[] m_array;
     m_array = nullptr;
     m_length = 0;
+    m_rangeMin = 0;
+    m_rangeMax = 0;
 }
 
 void Arr::print()
@@ -103,4 +105,24 @@ int Arr::runNumber()
             ++count;
     std::cout << "runNumber: " << count << std::endl;
     return count;
+}
+
+void Arr::swap(int index1, int index2)
+{
+    assert(0 <= index1 && index1 < m_length);
+    assert(0 <= index2 && index2 < m_length);
+    int temp = m_array[index1];
+    m_array[index1] = m_array[index2];
+    m_array[index2] = temp;
+}
+
+int Arr::length()
+{
+    return m_length;
+}
+
+int &Arr::operator[](const int index)
+{
+    assert(0 <= index && index < m_length);
+    return m_array[index];
 }
