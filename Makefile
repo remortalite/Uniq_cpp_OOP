@@ -1,10 +1,17 @@
 GTEST_LIB = libgtest.a
 GTEST_PATH = lib/$(GTEST_LIB)
 
+ifeq (${GITHUB_ACTIONS},true)
+	CLANG_FORMAT = clang-format-12
+else
+	CLANG_FORMAT = clang-format
+endif
+
 .PHONY: format test clean
 
 format: .clang-format
-	find . -name "*.[ch]pp" | xargs clang-format-12 -Wno-error=unknown -i
+	find . -name "*.[ch]pp" | xargs $(CLANG_FORMAT) -Wno-error=unknown -i
+	@echo Done!
 
 .clang-format:
 	wget https://gist.githubusercontent.com/remortalite/5a19717025837ea5a1ddcaaa228ee1a9/raw/0f7661accb30863ca7f620d00a0c07ca66c0ab68/.clang-format -O $@
