@@ -4,10 +4,10 @@ GTEST_PATH = lib/$(GTEST_LIB)
 .PHONY: format test clean
 
 format: .clang-format
-	find . -name "*.[ch]pp" | xargs clang-format -i
+	find . -name "*.[ch]pp" | xargs clang-format-12 -Wno-error=unknown -i
 
 .clang-format:
-	wget https://gist.githubusercontent.com/remortalite/5a19717025837ea5a1ddcaaa228ee1a9/raw/46493bcd31aaad11626986ccca2fea5b9e782bb6/.clang-format -O $@
+	wget https://gist.githubusercontent.com/remortalite/5a19717025837ea5a1ddcaaa228ee1a9/raw/0f7661accb30863ca7f620d00a0c07ca66c0ab68/.clang-format -O $@
 
 test: $(GTEST_PATH)
 
