@@ -3,3 +3,8 @@
 *.out
 *.a
 main
+build/
+uniq-test
+*.so
+*.o
+obj/*

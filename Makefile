@@ -10,8 +10,9 @@ LIB_DIR = lib
 OBJ_DIR = obj
 SRC_DIR = src
 INCLUDE_DIR = include
+TEST_DIR = test
 
-LIB_PATH = $(LIB_DIR)/$(LIB_NAME).a
+LIB_PATH = $(LIB_DIR)/$(LIB_NAME).so
 
 LIB_SRC = $(shell find $(SRC_DIR)/ -name "*.cpp")
 LIB_OBJ = $(LIB_SRC:$(SRC_DIR)/%.cpp=$(OBJ_DIR)/%.o)
@@ -24,6 +25,7 @@ DEPS = $(LIB_OBJ:.o=.d)
 
 GTEST_LIB = libgtest.a
 GTEST_PATH = lib/$(GTEST_LIB)
+GTEST_SRC_PATH = build/googletest
 
 CLANG_FORMAT = clang-format
 CLANG_FORMAT_FLAGS = -i
@@ -35,11 +37,12 @@ endif
 
 # ===== flags and libraries ======
 
-CC = g++
+CC = g++ -fPIC
 LIBS = -luniq
-LIBS_TEST = -lgtest
-CFLAGS = 
-LFLAGS = -I $(INCLUDE_DIR) -static -L $(LIB_DIR)
+LIBS_TEST = -pthread -lgtest 
+CFLAGS = -std=gnu++11
+LFLAGS = -I $(INCLUDE_DIR) -L $(LIB_DIR) --shared -g
+TEST_FLAGS = -v #-I $(GTEST_SRC_PATH)/googletest/include/
 
 # ===== recipes ===========================
 
@@ -59,23 +62,25 @@ format: .clang-format
 .clang-format:
 	wget https://gist.githubusercontent.com/remortalite/5a19717025837ea5a1ddcaaa228ee1a9/raw/0f7661accb30863ca7f620d00a0c07ca66c0ab68/.clang-format -O $@
 
-test: $(GTEST_PATH)
+test: $(GTEST_PATH) $(LIB_PATH)
+	$(CC) $(CFLAGS) $(LFLAGS) $(TEST_FLAGS) $(TEST_DIR)/main.cpp -I $(TEST_DIR) -o ./bin/$(APP_NAME)-test $(LIBS) $(LIBS_TEST)
 
-$(GTEST_PATH): googletest/
-	cd googletest &&\
+$(GTEST_PATH): $(GTEST_SRC_PATH)
+	cd $(GTEST_SRC_PATH) &&\
 		mkdir -p build &&\
 		cd build &&\
-	   	cmake .. &&\
-		make
-	cp googletest/build/lib/$(GTEST_LIB) lib/
-	rm -Rf googletest
+	   	cmake .. -DBUILD_SHARED_LIBS=ON &&\
+		make 
+	cp $(GTEST_SRC_PATH)/build/lib/*.so lib/
 
-googletest/:
-	git clone https://github.com/google/googletest.git -b release-1.11.0 googletest
+$(GTEST_SRC_PATH):
+	git clone https://github.com/google/googletest.git -b release-1.11.0 $@
 
 clean:
 	find . -name '*.[od]' -exec $(RM) '{}' \;
 	find . -name '*.gch' -exec $(RM) '{}' \;
 	find . -name '*.[a]' -exec $(RM) '{}' \;
 	$(RM) $(GTEST_PATH)
-
+	$(RM) -R $(GTEST_SRC_PATH)
+	$(RM) ./bin/uniq-test
+	$(RM) main
