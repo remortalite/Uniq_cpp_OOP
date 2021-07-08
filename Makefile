@@ -1,5 +1,26 @@
 APP_NAME = uniq
-LIB_NAME = lib$(APP_NAME).a
+LIB_NAME = lib$(APP_NAME)
+
+.PHONY: all format test clean
+.SUFFIXES: .cpp .o
+
+# ====== main app ============
+
+LIB_DIR = lib
+OBJ_DIR = obj
+SRC_DIR = src
+INCLUDE_DIR = include
+
+LIB_PATH = $(LIB_DIR)/$(LIB_NAME).a
+
+LIB_SRC = $(shell find $(SRC_DIR)/ -name "*.cpp")
+LIB_OBJ = $(LIB_SRC:$(SRC_DIR)/%.cpp=$(OBJ_DIR)/%.o)
+
+DEPS = $(LIB_OBJ:.o=.d)
+
+-include $(DEPS)
+
+# ====== google test lib ======
 
 GTEST_LIB = libgtest.a
 GTEST_PATH = lib/$(GTEST_LIB)
@@ -12,27 +33,24 @@ ifeq (${GITHUB_ACTIONS},true)
 	CLANG_FORMAT_FLAGS := -Wno-error=unknown $(CLANG_FORMAT_FLAGS)
 endif
 
-LIB_DIR = lib
-OBJ_DIR = obj
-SRC_DIR = src
+# ===== flags and libraries ======
 
-LIB_PATH = $(LIB_DIR)/$(LIB_NAME)
+CC = g++
+LIBS = -luniq
+LIBS_TEST = -lgtest
+CFLAGS = 
+LFLAGS = -I $(INCLUDE_DIR) -static -L $(LIB_DIR)
 
-LIB_SRC = $(shell find $(SRC_DIR)/ -name "*.cpp")
-LIB_OBJ = $(LIB_SRC:$(SRC_DIR)/%.cpp=$(OBJ_DIR)/%.o)
-
-.PHONY: all format test clean
-.SUFFIXES: .cpp .o
-
-# ========================================
+# ===== recipes ===========================
 
 all: $(LIB_PATH)
+	$(CC) $(CFLAGS) $(LFLAGS) main.cpp -o main $(LIBS)
 
 $(LIB_PATH): $(LIB_OBJ)
 	ar rcs $@ $^
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp
-	$(CC) $(CC_FLAGS) -I./include -c $< -o $@
+	$(CC) $(CFLAGS) $(LFLAGS) -c $< -o $@
 
 format: .clang-format
 	find . -name "*.[ch]pp" | xargs $(CLANG_FORMAT) $(CLANG_FORMAT_FLAGS)
