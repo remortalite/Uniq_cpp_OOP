@@ -1,16 +1,18 @@
 GTEST_LIB = libgtest.a
 GTEST_PATH = lib/$(GTEST_LIB)
 
+CLANG_FORMAT = clang-format
+CLANG_FORMAT_FLAGS = -i
+
 ifeq (${GITHUB_ACTIONS},true)
 	CLANG_FORMAT = clang-format-12
-else
-	CLANG_FORMAT = clang-format
+	CLANG_FORMAT_FLAGS := -Wno-error=unknown $(CLANG_FORMAT_FLAGS)
 endif
 
 .PHONY: format test clean
 
 format: .clang-format
-	find . -name "*.[ch]pp" | xargs $(CLANG_FORMAT) -Wno-error=unknown -i
+	find . -name "*.[ch]pp" | xargs $(CLANG_FORMAT) $(CLANG_FORMAT_FLAGS)
 	@echo Done!
 
 .clang-format:
