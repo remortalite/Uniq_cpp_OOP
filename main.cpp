@@ -1,24 +1,11 @@
-#include "lib/insertSort.hpp"
+#include <libuniq/Array.hpp>
 
-#include <ctime>
 #include <iostream>
 
-int main(int argc, char *argv[])
+int main()
 {
-    srand(time(0));
-    Arr array = { 5, 3, 7, 2, 1, 0 };
+    Arr array = { 1, 2, 3, 4 };
+    std::cout << "HEY" << std::endl;
     array.print();
-    insertSort(array);
-    array.print();
-
-    std::cout << "---------" << std::endl;
-
-    array.fillRand(10000);
-    array.checkSum();
-    array.runNumber();
-    insertSort(array);
-    array.checkSum();
-    array.runNumber();
-
     return 0;
 }

@@ -1,4 +1,4 @@
-#include "Array.hpp"
+#include <libuniq/Array.hpp>
 
 #include <cassert>
 #include <iostream>
