@@ -1,3 +1,6 @@
+APP_NAME = uniq
+LIB_NAME = lib$(APP_NAME).a
+
 GTEST_LIB = libgtest.a
 GTEST_PATH = lib/$(GTEST_LIB)
 
@@ -9,7 +12,27 @@ ifeq (${GITHUB_ACTIONS},true)
 	CLANG_FORMAT_FLAGS := -Wno-error=unknown $(CLANG_FORMAT_FLAGS)
 endif
 
-.PHONY: format test clean
+LIB_DIR = lib
+OBJ_DIR = obj
+SRC_DIR = src
+
+LIB_PATH = $(LIB_DIR)/$(LIB_NAME)
+
+LIB_SRC = $(shell find $(SRC_DIR)/ -name "*.cpp")
+LIB_OBJ = $(LIB_SRC:$(SRC_DIR)/%.cpp=$(OBJ_DIR)/%.o)
+
+.PHONY: all format test clean
+.SUFFIXES: .cpp .o
+
+# ========================================
+
+all: $(LIB_PATH)
+
+$(LIB_PATH): $(LIB_OBJ)
+	ar rcs $@ $^
+
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp
+	$(CC) $(CC_FLAGS) -I./include -c $< -o $@
 
 format: .clang-format
 	find . -name "*.[ch]pp" | xargs $(CLANG_FORMAT) $(CLANG_FORMAT_FLAGS)
@@ -35,4 +58,6 @@ googletest/:
 clean:
 	find . -name '*.[od]' -exec $(RM) '{}' \;
 	find . -name '*.gch' -exec $(RM) '{}' \;
+	find . -name '*.[a]' -exec $(RM) '{}' \;
+	$(RM) $(GTEST_PATH)
 
