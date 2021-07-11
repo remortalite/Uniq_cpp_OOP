@@ -20,9 +20,11 @@ TEST_PATH=$(BIN_DIR)/$(APP_NAME)-test
 LIB_SRC = $(shell find $(SRC_DIR)/ -name "*.cpp")
 LIB_OBJ = $(LIB_SRC:$(SRC_DIR)/%.cpp=$(OBJ_DIR)/%.o)
 
-DEPS = $(LIB_OBJ:.o=.d)
+MAIN_OBJ = $(OBJ_DIR)/main.o
+MAIN_EXE = main
+MAIN_SRC = main.cpp
 
--include $(DEPS)
+DEPS :=  $(LIB_OBJ:.o=.d) $(MAIN_OBJ:.o=.d) 
 
 # ====== google test lib ======
 
@@ -43,14 +45,19 @@ endif
 CC = g++ -fPIC
 LIBS = -luniq
 LIBS_TEST = -pthread -lgtest 
-CFLAGS = -std=gnu++11 -MMD -MP
+CFLAGS = -std=gnu++11 -MD -MP
 LDFLAGS = -I $(INCLUDE_DIR) -L $(LIB_DIR) -Wl,-rpath=$(LIB_DIR)
 TEST_FLAGS = -I $(GTEST_SRC_PATH)/googletest/include/
 
 # ===== recipes ===========================
 
-all: $(LIB_PATH)
-	$(CC) $(CFLAGS) $(LDFLAGS) main.cpp -o main $(LIBS)
+all: $(LIB_PATH) $(MAIN_EXE)
+
+$(MAIN_EXE): $(MAIN_OBJ)
+	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $^ $(LIBS)
+
+$(MAIN_OBJ): $(MAIN_SRC)
+	$(CC) $(CFLAGS) $(LDFLAGS) -c $< -o $@ $(LIBS)
 
 $(LIB_PATH): $(LIB_OBJ)
 	@echo Creating shared library...
@@ -96,3 +103,4 @@ clean-full:
 	@$(RM) -R $(GTEST_SRC_PATH)
 	@echo All libs and gtest sources deleted!
 
+-include $(DEPS)
