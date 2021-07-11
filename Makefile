@@ -66,7 +66,6 @@ format: .clang-format
 .clang-format:
 	wget https://gist.githubusercontent.com/remortalite/5a19717025837ea5a1ddcaaa228ee1a9/raw/0f7661accb30863ca7f620d00a0c07ca66c0ab68/.clang-format -O $@
 
-
 test: $(TEST_PATH)
 
 $(TEST_PATH): $(GTEST_PATH) $(LIB_PATH)
@@ -76,7 +75,7 @@ $(GTEST_PATH): $(GTEST_SRC_PATH)
 	@cd $(GTEST_SRC_PATH) &&\
 		mkdir -p build &&\
 		cd build &&\
-	   	cmake .. -DBUILD_SHARED_LIBS=ON &&\
+	   	cmake .. -DBUILD_SHARED_LIBS=ON -DBUILD_MOCK=OFF &&\
 		make 
 	cp $(GTEST_SRC_PATH)/build/lib/*.so $(GTEST_SRC_PATH)/build/lib/*.so.* lib/
 
@@ -84,11 +83,16 @@ $(GTEST_SRC_PATH):
 	git clone https://github.com/google/googletest.git $@
 
 clean:
-	@$(RM) $(LIB_DIR)/*
 	@find . -name '*.[od]' -exec $(RM) '{}' \;
 	@find . -name '*.gch' -exec $(RM) '{}' \;
-	@$(RM) $(GTEST_PATH)
-	@$(RM) -R $(GTEST_SRC_PATH)
+	@$(RM) $(LIB_PATH)
 	@$(RM) $(TEST_PATH)
 	@$(RM) main
 	@echo Cleaned!
+
+clean-full:
+	@$(RM) $(LIB_DIR)/*
+	@$(RM) $(GTEST_PATH)
+	@$(RM) -R $(GTEST_SRC_PATH)
+	@echo All libs and gtest sources deleted!
+
