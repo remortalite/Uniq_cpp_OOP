@@ -8,3 +8,5 @@ uniq-test
 *.so
 *.o
 obj/*
+lib/*
+*.d
