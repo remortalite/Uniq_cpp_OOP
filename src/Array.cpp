@@ -88,22 +88,26 @@ void Arr::print()
     std::cout << std::endl;
 }
 
-int Arr::checkSum()
+int Arr::checkSum(bool print)
 {
     int checkSum = 0;
     for (int i = 0; i < m_length; ++i)
         checkSum += m_array[i];
-    std::cout << "checkSum:  " << checkSum << std::endl;
+    if (print)
+        std::cout << "checkSum:  " << checkSum << std::endl;
     return checkSum;
 }
 
-int Arr::runNumber()
+int Arr::runNumber(bool print)
 {
+    if (m_array == nullptr)
+        return 0;
     int count = 1;
     for (int i = 1; i < m_length; ++i)
         if (m_array[i] < m_array[i - 1])
             ++count;
-    std::cout << "runNumber: " << count << std::endl;
+    if (print)
+        std::cout << "runNumber: " << count << std::endl;
     return count;
 }
 

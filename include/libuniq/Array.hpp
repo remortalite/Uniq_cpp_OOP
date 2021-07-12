@@ -28,8 +28,8 @@ public:
     void fillDec(int length);
     void fillInc(int length);
 
-    int checkSum();
-    int runNumber();
+    int checkSum(bool print=false);
+    int runNumber(bool print=false);
 
     void swap(int index1, int index2);
 
