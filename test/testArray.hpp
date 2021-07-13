@@ -142,6 +142,30 @@ namespace Uniq_cpp {
                 EXPECT_EQ(array2[2], 5);
                 EXPECT_EQ(array2[4], 3);
             }
+
+            TEST_F(ArrayTest, reallocate)
+            {
+                Arr array = { 1, 2, 3, 4, 5 };
+                array.reallocate(1);
+
+                EXPECT_EQ(array.length(), 1);
+            }
+
+            TEST_F(ArrayTest, resize)
+            {
+                Arr array = { 1, 2, 3, 4, 5 };
+                array.resize(4);
+
+                EXPECT_EQ(array.length(), 4);
+                EXPECT_EQ(array[3], 4);
+                EXPECT_EQ(array[2], 3);
+
+                array.resize(5);
+                array[4] = 100;
+                EXPECT_EQ(array.length(), 5);
+                EXPECT_EQ(array[3], 4);
+                EXPECT_EQ(array[4], 100);
+            }
         } // namespace
     }     // namespace Array
 } // namespace Uniq_cpp

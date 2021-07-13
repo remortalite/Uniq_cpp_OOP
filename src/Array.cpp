@@ -72,11 +72,16 @@ void Arr::fillDec(int length)
         m_array[i] = length - i;
 }
 
-void Arr::reset()
+void Arr::erase()
 {
     delete[] m_array;
     m_array = nullptr;
     m_length = 0;
+}
+
+void Arr::reset()
+{
+    erase();
     m_rangeMin = 0;
     m_rangeMax = 0;
 }
@@ -129,4 +134,39 @@ int &Arr::operator[](const int index)
 {
     assert(0 <= index && index < m_length);
     return m_array[index];
+}
+
+void Arr::reallocate(int newLength)
+{
+    erase();
+
+    assert(newLength > 0);
+
+    allocateMemory(newLength);
+    m_length = newLength;
+}
+
+void Arr::resize(int newLength)
+{
+    if (newLength == m_length)
+        return;
+
+    if (newLength <= 0) {
+        erase();
+        return;
+    }
+
+    int *data = new int[newLength];
+
+    if (m_length > 0) {
+        int elementsToCopy = (newLength > m_length) ? m_length : newLength;
+
+        for (int i = 0; i < elementsToCopy; ++i)
+            data[i] = m_array[i];
+    }
+
+    delete[] m_array;
+
+    m_array = data;
+    m_length = newLength;
 }
