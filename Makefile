@@ -68,6 +68,7 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp
 
 format: .clang-format
 	find src test -name "*.[ch]pp" | xargs $(CLANG_FORMAT) $(CLANG_FORMAT_FLAGS)
+	find include test -name "*.[ch]pp" | xargs $(CLANG_FORMAT) $(CLANG_FORMAT_FLAGS)
 	$(CLANG_FORMAT) $(CLANG_FORMAT_FLAGS) main.cpp
 	@echo Done!
 

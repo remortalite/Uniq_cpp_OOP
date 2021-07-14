@@ -5,4 +5,4 @@
 
 int insertSort(Arr &array);
 
-#endif // #ifndef INSERT_SORT_HPP	
+#endif // #ifndef INSERT_SORT_HPP

@@ -16,18 +16,18 @@ public:
     Arr(const std::initializer_list<int> &list);
 
     // deallocate memory of an array, set length to zero
-	void erase();
-	// erase and set range to defaults
+    void erase();
+    // erase and set range to defaults
     void reset();
 
     void print();
 
     int length();
 
-	// erase data and reallocate
-	void reallocate(int length);
-	// save data and change size (slow)
-	void resize(int length);
+    // erase data and reallocate
+    void reallocate(int length);
+    // save data and change size (slow)
+    void resize(int length);
 
     void setRange(int min, int max);
 
@@ -35,8 +35,8 @@ public:
     void fillDec(int length);
     void fillInc(int length);
 
-    int checkSum(bool print=false);
-    int runNumber(bool print=false);
+    int checkSum(bool print = false);
+    int runNumber(bool print = false);
 
     void swap(int index1, int index2);
 
