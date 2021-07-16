@@ -1,7 +1,7 @@
 APP_NAME = uniq
 LIB_NAME = lib$(APP_NAME)
 
-.PHONY: all format test clean run
+.PHONY: all format test clean run prereq
 .SUFFIXES: .cpp .o
 
 # ====== main app ============
@@ -12,6 +12,7 @@ OBJ_DIR = obj
 SRC_DIR = src
 INCLUDE_DIR = include
 TEST_DIR = test
+APPS_DIR = apps
 
 LIB_PATH = $(LIB_DIR)/$(LIB_NAME).so
 
@@ -23,8 +24,9 @@ LIB_OBJ = $(LIB_SRC:$(SRC_DIR)/%.cpp=$(OBJ_DIR)/%.o)
 # FILE can be set from arguments
 # use: ` make FILE=<filename>.cpp `
 FILE ?= main.cpp
-MAIN_SRC := $(FILE)
-MAIN_OBJ := $(FILE:%.cpp=$(OBJ_DIR)/%.o)
+MAIN_SRC := ./$(FILE)
+MAIN_OBJ := $(shell find $(MAIN_SRC) -type f -printf "%f" 2>/dev/null)
+MAIN_OBJ := $(MAIN_OBJ:%.cpp=$(OBJ_DIR)/%.o)
 
 # executable always `./app`
 MAIN_EXE := app
@@ -56,10 +58,15 @@ TEST_FLAGS = -I $(GTEST_SRC_PATH)/googletest/include/
 
 # ===== recipes ===========================
 
-all: $(LIB_PATH) $(MAIN_EXE)
+# remove executable; check if sources exist
+prereq:
+	@test -e $(MAIN_SRC) || { echo "File '$(MAIN_SRC)' doesn't exist!" ; exit 1; }
+	@$(RM) $(MAIN_EXE)
+
+all: prereq $(LIB_PATH) $(MAIN_EXE)
 
 run: all
-	./$(MAIN_EXE)
+	./app
 
 $(MAIN_EXE): $(MAIN_OBJ)
 	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $^ $(LIBS)
@@ -75,8 +82,9 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp
 	$(CC) $(CFLAGS) $(LDFLAGS) -c $< -o $@
 
 format: .clang-format
-	find src test -name "*.[ch]pp" | xargs $(CLANG_FORMAT) $(CLANG_FORMAT_FLAGS)
-	find include test -name "*.[ch]pp" | xargs $(CLANG_FORMAT) $(CLANG_FORMAT_FLAGS)
+	find $(SRD_DIR) test -name "*.[ch]pp" | xargs $(CLANG_FORMAT) $(CLANG_FORMAT_FLAGS)
+	find $(INCLUDE_DIR) test -name "*.[ch]pp" | xargs $(CLANG_FORMAT) $(CLANG_FORMAT_FLAGS)
+	find $(APPS_DIR) test -name "*.[ch]pp" | xargs $(CLANG_FORMAT) $(CLANG_FORMAT_FLAGS)
 	$(CLANG_FORMAT) $(CLANG_FORMAT_FLAGS) main.cpp
 	@echo Done!
 
