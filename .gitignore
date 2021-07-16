@@ -2,7 +2,7 @@
 *.gch
 *.out
 *.a
-main
+app
 build/
 uniq-test
 *.so

@@ -1,7 +1,7 @@
 APP_NAME = uniq
 LIB_NAME = lib$(APP_NAME)
 
-.PHONY: all format test clean
+.PHONY: all format test clean run
 .SUFFIXES: .cpp .o
 
 # ====== main app ============
@@ -20,9 +20,14 @@ TEST_PATH=$(BIN_DIR)/$(APP_NAME)-test
 LIB_SRC = $(shell find $(SRC_DIR)/ -name "*.cpp")
 LIB_OBJ = $(LIB_SRC:$(SRC_DIR)/%.cpp=$(OBJ_DIR)/%.o)
 
-MAIN_OBJ = $(OBJ_DIR)/main.o
-MAIN_EXE = main
-MAIN_SRC = main.cpp
+# FILE can be set from arguments
+# use: ` make FILE=<filename>.cpp `
+FILE ?= main.cpp
+MAIN_SRC := $(FILE)
+MAIN_OBJ := $(FILE:%.cpp=$(OBJ_DIR)/%.o)
+
+# executable always `./app`
+MAIN_EXE := app
 
 DEPS :=  $(LIB_OBJ:.o=.d) $(MAIN_OBJ:.o=.d) 
 
@@ -52,6 +57,9 @@ TEST_FLAGS = -I $(GTEST_SRC_PATH)/googletest/include/
 # ===== recipes ===========================
 
 all: $(LIB_PATH) $(MAIN_EXE)
+
+run: all
+	./$(MAIN_EXE)
 
 $(MAIN_EXE): $(MAIN_OBJ)
 	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $^ $(LIBS)
@@ -96,7 +104,7 @@ clean:
 	@find . -name '*.gch' -exec $(RM) '{}' \;
 	@$(RM) $(LIB_PATH)
 	@$(RM) $(TEST_PATH)
-	@$(RM) main
+	@$(RM) $(MAIN_EXE)
 	@echo Cleaned!
 
 clean-full:
