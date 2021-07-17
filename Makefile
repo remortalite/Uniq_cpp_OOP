@@ -100,7 +100,7 @@ $(GTEST_PATH): $(GTEST_SRC_PATH)
 	@cd $(GTEST_SRC_PATH) &&\
 		mkdir -p build &&\
 		cd build &&\
-	   	cmake .. -DBUILD_SHARED_LIBS=ON -DBUILD_MOCK=OFF &&\
+	   	cmake .. -DBUILD_SHARED_LIBS=ON -DBUILD_GMOCK=OFF &&\
 		make 
 	cp $(GTEST_SRC_PATH)/build/lib/*.so $(GTEST_SRC_PATH)/build/lib/*.so.* lib/
 
@@ -115,7 +115,7 @@ clean:
 	@$(RM) $(MAIN_EXE)
 	@echo Cleaned!
 
-clean-full:
+clean-full: clean
 	@$(RM) $(LIB_DIR)/*
 	@$(RM) $(GTEST_PATH)
 	@$(RM) -R $(GTEST_SRC_PATH)
