@@ -28,8 +28,8 @@ MAIN_SRC := ./$(FILE)
 MAIN_OBJ := $(shell find $(MAIN_SRC) -type f -printf "%f" 2>/dev/null)
 MAIN_OBJ := $(MAIN_OBJ:%.cpp=$(OBJ_DIR)/%.o)
 
-# executable always `./app`
-MAIN_EXE := app
+# executable always `./bin/app`
+MAIN_EXE := $(BIN_DIR)/app
 
 DEPS :=  $(LIB_OBJ:.o=.d) $(MAIN_OBJ:.o=.d) 
 
@@ -66,7 +66,7 @@ prereq:
 all: prereq $(LIB_PATH) $(MAIN_EXE)
 
 run: all
-	./app
+	./$(MAIN_EXE)
 
 $(MAIN_EXE): $(MAIN_OBJ)
 	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $^ $(LIBS)
