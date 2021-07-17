@@ -1,12 +1,17 @@
+# directories
+bin/
+obj/
+lib/
+build/
+
+# extensions
 *.swp
 *.gch
 *.out
-*.a
-app
-build/
-uniq-test
-*.so
 *.o
-obj/*
-lib/*
 *.d
+*.a
+*.so
+
+bin/app
+bin/uniq-test

@@ -58,12 +58,17 @@ TEST_FLAGS = -I $(GTEST_SRC_PATH)/googletest/include/
 
 # ===== recipes ===========================
 
-# remove executable; check if sources exist
+default: all
+
 prereq:
+	@ mkdir -p bin lib obj
+
+# remove executable; check if sources exist
+prereq-all: prereq
 	@test -e $(MAIN_SRC) || { echo "File '$(MAIN_SRC)' doesn't exist!" ; exit 1; }
 	@$(RM) $(MAIN_EXE)
 
-all: prereq $(LIB_PATH) $(MAIN_EXE)
+all: prereq-all $(LIB_PATH) $(MAIN_EXE)
 
 run: all
 	./$(MAIN_EXE)
@@ -91,7 +96,7 @@ format: .clang-format
 .clang-format:
 	wget https://gist.githubusercontent.com/remortalite/5a19717025837ea5a1ddcaaa228ee1a9/raw/0f7661accb30863ca7f620d00a0c07ca66c0ab68/.clang-format -O $@
 
-test: $(TEST_PATH)
+test: prereq $(TEST_PATH)
 
 $(TEST_PATH): $(GTEST_PATH) $(LIB_PATH)
 	$(CC) $(CFLAGS) $(LDFLAGS) $(TEST_FLAGS) $(TEST_DIR)/main.cpp -I $(TEST_DIR) -o $@ $(LIBS) $(LIBS_TEST)
@@ -118,7 +123,8 @@ clean:
 clean-full: clean
 	@$(RM) $(LIB_DIR)/*
 	@$(RM) $(GTEST_PATH)
-	@$(RM) -R $(GTEST_SRC_PATH)
+	@$(RM) -R $(GTEST_SRC_PATH) build/
+	@$(RM) -R $(BIN_DIR) $(OBJ_DIR) $(LIB_DIR)
 	@echo All libs and gtest sources deleted!
 
 -include $(DEPS)
