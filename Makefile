@@ -1,8 +1,13 @@
 APP_NAME = uniq
 LIB_NAME = lib$(APP_NAME)
 
-.PHONY: all format test clean run prereq
+.PHONY: all format test clean run prereq prereq-all
 .SUFFIXES: .cpp .o
+
+# for non-silent mode use VERBOSE=1 as argument
+ifndef VERBOSE
+.SILENT:
+endif
 
 # ====== main app ============
 
@@ -61,12 +66,12 @@ TEST_FLAGS = -I $(GTEST_SRC_PATH)/googletest/include/
 default: all
 
 prereq:
-	@ mkdir -p bin lib obj
+	$(Q) mkdir -p bin lib obj
 
 # remove executable; check if sources exist
 prereq-all: prereq
-	@test -e $(MAIN_SRC) || { echo "File '$(MAIN_SRC)' doesn't exist!" ; exit 1; }
-	@$(RM) $(MAIN_EXE)
+	$(Q) test -e $(MAIN_SRC) || { echo "File '$(MAIN_SRC)' doesn't exist!" ; exit 1; }
+	$(Q) $(RM) $(MAIN_EXE)
 
 all: prereq-all $(LIB_PATH) $(MAIN_EXE)
 
@@ -80,7 +85,7 @@ $(MAIN_OBJ): $(MAIN_SRC)
 	$(CC) $(CFLAGS) $(LDFLAGS) -c $< -o $@ $(LIBS)
 
 $(LIB_PATH): $(LIB_OBJ)
-	@echo Creating shared library...
+	$(Q) echo Creating shared library...
 	$(CC) -shared -o $@ $^
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp
@@ -102,7 +107,7 @@ $(TEST_PATH): $(GTEST_PATH) $(LIB_PATH)
 	$(CC) $(CFLAGS) $(LDFLAGS) $(TEST_FLAGS) $(TEST_DIR)/main.cpp -I $(TEST_DIR) -o $@ $(LIBS) $(LIBS_TEST)
 
 $(GTEST_PATH): $(GTEST_SRC_PATH)
-	@cd $(GTEST_SRC_PATH) &&\
+	$(Q) cd $(GTEST_SRC_PATH) &&\
 		mkdir -p build &&\
 		cd build &&\
 	   	cmake .. -DBUILD_SHARED_LIBS=ON -DBUILD_GMOCK=OFF &&\
@@ -113,18 +118,18 @@ $(GTEST_SRC_PATH):
 	git clone https://github.com/google/googletest.git $@
 
 clean:
-	@find . -name '*.[od]' -exec $(RM) '{}' \;
-	@find . -name '*.gch' -exec $(RM) '{}' \;
-	@$(RM) $(LIB_PATH)
-	@$(RM) $(TEST_PATH)
-	@$(RM) $(MAIN_EXE)
-	@echo Cleaned!
+	$(Q) find . -name '*.[od]' -exec $(RM) '{}' \;
+	$(Q) find . -name '*.gch' -exec $(RM) '{}' \;
+	$(Q) $(RM) $(LIB_PATH)
+	$(Q) $(RM) $(TEST_PATH)
+	$(Q) $(RM) $(MAIN_EXE)
+	$(Q) echo Cleaned!
 
 clean-full: clean
-	@$(RM) $(LIB_DIR)/*
-	@$(RM) $(GTEST_PATH)
-	@$(RM) -R $(GTEST_SRC_PATH) build/
-	@$(RM) -R $(BIN_DIR) $(OBJ_DIR) $(LIB_DIR)
-	@echo All libs and gtest sources deleted!
+	$(Q) $(RM) $(LIB_DIR)/*
+	$(Q) $(RM) $(GTEST_PATH)
+	$(Q) $(RM) -R $(GTEST_SRC_PATH) build/
+	$(Q) $(RM) -R $(BIN_DIR) $(OBJ_DIR) $(LIB_DIR)
+	$(Q) echo All libs and gtest sources deleted!
 
 -include $(DEPS)
