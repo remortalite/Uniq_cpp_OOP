@@ -2,7 +2,7 @@
 
 #include <libuniq/Array.hpp>
 
-int insertSort(Arr &array)
+void insertSort(Arr &array)
 {
     int length(array.length());
     for (int i = 1, j; i < length; ++i) {
@@ -15,5 +15,4 @@ int insertSort(Arr &array)
         }
         array[j] = temp;
     }
-    return 0;
 }

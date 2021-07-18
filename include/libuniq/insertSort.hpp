@@ -3,6 +3,6 @@
 
 #include <libuniq/Array.hpp>
 
-int insertSort(Arr &array);
+void insertSort(Arr &array);
 
 #endif // #ifndef INSERT_SORT_HPP

@@ -1,4 +1,5 @@
 #include <libuniq/Array.hpp>
+#include <libuniq/checkArraySortFunc.hpp>
 #include <libuniq/insertSort.hpp>
 
 #include <iostream>
@@ -10,6 +11,8 @@ int main()
     array.print();
     insertSort(array);
     array.print();
+
+    checkArraySortFunc(insertSort);
 
     return 0;
 }
