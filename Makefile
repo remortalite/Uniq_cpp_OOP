@@ -9,6 +9,8 @@ ifndef VERBOSE
 .SILENT:
 endif
 
+default: all
+
 # ====== main app ============
 
 BIN_DIR = bin
@@ -30,8 +32,7 @@ LIB_OBJ = $(LIB_SRC:$(SRC_DIR)/%.cpp=$(OBJ_DIR)/%.o)
 # use: ` make FILE=<filename>.cpp `
 FILE ?= main.cpp
 MAIN_SRC := ./$(FILE)
-MAIN_OBJ := $(shell find $(MAIN_SRC) -type f -printf "%f" 2>/dev/null)
-MAIN_OBJ := $(MAIN_OBJ:%.cpp=$(OBJ_DIR)/%.o)
+MAIN_OBJ := $(patsubst %.cpp, $(OBJ_DIR)/%.o, $(shell basename $(MAIN_SRC)))
 
 # executable always `./bin/app`
 MAIN_EXE := $(BIN_DIR)/app
@@ -54,16 +55,14 @@ endif
 
 # ===== flags and libraries ======
 
-CC = g++ -fPIC
+CC = g++
 LIBS = -luniq
 LIBS_TEST = -pthread -lgtest 
-CFLAGS = -std=gnu++11 -MD -MP
+CFLAGS = -std=gnu++11 -fPIC -MD -MP
 LDFLAGS = -I $(INCLUDE_DIR) -L $(LIB_DIR) -Wl,-rpath=$(LIB_DIR)
 TEST_FLAGS = -I $(GTEST_SRC_PATH)/googletest/include/
 
 # ===== recipes ===========================
-
-default: all
 
 prereq:
 	$(Q) mkdir -p bin lib obj
