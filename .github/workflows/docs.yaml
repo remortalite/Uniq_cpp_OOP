@@ -1,0 +1,59 @@
+name: Generate documentation
+
+on: 
+  push:
+    branches:
+      - main
+
+jobs:
+  main-job:
+
+    runs-on: ubuntu-20.04
+
+    steps:
+
+      - uses: actions/checkout@v2
+        with:
+          path: app
+
+      - uses: actions/checkout@v2
+        with:
+          repository: doxygen/doxygen
+          path: doxygen
+
+      - name: Install Doxygen
+        run: |
+          cd doxygen 
+          mkdir -p build 
+          cd build 
+          cmake -G "Unix Makefiles" .. 
+          make
+          make install
+         
+      - name: Generate documentation
+        run: |
+          cd app
+          mkdir -p docs
+          doxygen
+
+      - name: Download logo
+        run: |
+          cd app
+          wget https://avatars.githubusercontent.com/u/50234786 -O docs/logo.png
+          convert -resize 30% docs/logo.png docs/logo.png
+
+      - name: Commit changes to branch 'documentation'
+        run: |
+          cd app
+          git fetch origin documentation
+          git checkout -b origin/documentation
+          git config --local user.name "github-actions[bot]"
+          git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -f docs/
+          git commit -m "Documentation update"
+          git push https://$USERNAME:$REPO_KEY@github.com/remortalite/Uniq_cpp_OOP.git origin/documentation
+        env:
+          REPO_KEY: ${{secrets.PUSH_TOKEN}}
+          USERNAME: github-actions[bot]
+
+

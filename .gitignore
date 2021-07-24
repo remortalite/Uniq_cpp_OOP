@@ -3,7 +3,6 @@ bin/
 obj/
 lib/
 build/
-docs/
 
 # extensions
 *.swp
