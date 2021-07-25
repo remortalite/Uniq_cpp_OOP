@@ -15,6 +15,7 @@ jobs:
       - uses: actions/checkout@v2
         with:
           repository: remortalite/Uniq_cpp_OOP
+          ref: documentation
           path: app
 
       - uses: actions/checkout@v2
@@ -24,7 +25,7 @@ jobs:
 
       - name: Install Doxygen
         run: |
-          cd doxygen 
+          cd doxygen
           mkdir -p build 
           cd build 
           cmake -G "Unix Makefiles" .. 
@@ -48,10 +49,10 @@ jobs:
           cd app
           git config --local user.name "github-actions[bot]"
           git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git checkout -b documentation
+          #git checkout -b documentation
           git add -f docs/
           git commit -m "Documentation update"
-          git rebase main
+          #git rebase main
           git push https://$USERNAME:$REPO_KEY@github.com/remortalite/Uniq_cpp_OOP.git documentation
         env:
           REPO_KEY: ${{secrets.PUSH_TOKEN}}
