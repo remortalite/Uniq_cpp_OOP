@@ -10,9 +10,9 @@
 /*! \fn void checkArraySortFunc(std::function<void(Arr &)>)
  *	\brief Check if Arr::checkSum() and Arr::runNumber() criterias passed.
  *
- *  Checks on random array with 1000 elements ( Arr:array.fillRand(1000) is
- *used) if check sums are equal and Arr::runNumber() is equal to 1 after
- *sorting.
+ *  Checks on random array with 1000 elements ( Arr::fillRand() is
+ *  used) if check sums are equal and Arr::runNumber() is equal to 1 after
+ *  sorting.
  */
 void checkArraySortFunc(std::function<void(Arr &)>);
 
