@@ -3,7 +3,8 @@
 
 #include <initializer_list>
 
-/*!
+/*! \class Arr
+ *
  * Main array-like class with necessary functions for
  * exercices with sorts and searches.
  */

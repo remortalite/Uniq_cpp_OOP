@@ -5,7 +5,8 @@
 
 #include <functional>
 
-/*!
+/*! \fn checkArraySortFunc
+ *
  *	\brief Check if checkSum and runNumber criterias passed.
  *
  *  Checks on random array with 1000 elements (array.fillRand(1000) is used)

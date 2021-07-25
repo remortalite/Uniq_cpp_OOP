@@ -20,12 +20,14 @@ jobs:
         run: |
           git config --local user.name "github-actions[bot]"
           git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git fetch origin main
-          git checkout main
-          git fetch origin documentation
+          #git fetch origin main
+          #git checkout main
+          #git fetch origin documentation
+          git fetch --all
           git checkout documentation
-          git merge main -m "Update branch with 'main'" --allow-unrelated-histories
-          git push https://$USERNAME:$REPO_KEY@github.com/remortalite/Uniq_cpp_OOP.git documentation
+          git reset --hard origin/main
+          #git merge main -m "Update branch with 'main'" --allow-unrelated-histories
+          git push -f https://$USERNAME:$REPO_KEY@github.com/remortalite/Uniq_cpp_OOP.git documentation
         env:
           REPO_KEY: ${{secrets.PUSH_TOKEN}}
           USERNAME: github-actions[bot]
