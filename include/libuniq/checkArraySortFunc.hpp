@@ -5,6 +5,7 @@
 
 #include <functional>
 
+//! \file checkArraySortFunc.hpp
 /*! \fn checkArraySortFunc
  *
  *	\brief Check if checkSum and runNumber criterias passed.
