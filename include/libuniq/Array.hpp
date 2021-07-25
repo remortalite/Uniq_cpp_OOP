@@ -19,6 +19,9 @@ public:
      */
     Arr(int length);
 
+    /*!
+     *	\param[in] list Link on initializer_list type
+     */
     Arr(const std::initializer_list<int> &list);
 
     //! Deallocate memory of the array, set length to zero
