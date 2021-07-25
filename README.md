@@ -1,5 +1,7 @@
 # Some study C++ projects
 
+*site: http://uniq.remortalite.ml/*
+
 Use:
 ```
 make run FILE=apps/filename.cpp
