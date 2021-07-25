@@ -6,12 +6,13 @@
 #include <functional>
 
 //! \file checkArraySortFunc.hpp
-/*! \fn checkArraySortFunc
+
+/*! \fn void checkArraySortFunc(std::function<void(Arr &)>)
+ *	\brief Check if Arr::checkSum() and Arr::runNumber() criterias passed.
  *
- *	\brief Check if checkSum and runNumber criterias passed.
- *
- *  Checks on random array with 1000 elements (array.fillRand(1000) is used)
- *  if checkSums are equal and runNumber is equal to 1 after sorting.
+ *  Checks on random array with 1000 elements ( Arr:array.fillRand(1000) is
+ *used) if check sums are equal and Arr::runNumber() is equal to 1 after
+ *sorting.
  */
 void checkArraySortFunc(std::function<void(Arr &)>);
 
