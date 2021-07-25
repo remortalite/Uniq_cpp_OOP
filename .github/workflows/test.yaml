@@ -1,6 +1,9 @@
 name: Test project
 
-on: push
+on:
+  push:
+    branches-ignore:
+      - documentation
 
 jobs:
   test-job:
