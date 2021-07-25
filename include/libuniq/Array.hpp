@@ -54,7 +54,7 @@ public:
 
     /*! \brief Fill Array with random numbers.
      *
-     * Use range from min to max, if it was set manually
+     * Use range from min to max, if it was set manually by setRange
      * (if min != max). Otherwise, using min = 0 and max = length*2.
      *
      * \param[in] length Length of the array.

@@ -14,6 +14,7 @@ jobs:
 
       - uses: actions/checkout@v2
         with:
+          repository: remortalite/Uniq_cpp_OOP
           path: app
 
       - uses: actions/checkout@v2
@@ -45,13 +46,13 @@ jobs:
       - name: Commit changes to branch 'documentation'
         run: |
           cd app
-          git fetch origin documentation
-          git checkout -b origin/documentation
           git config --local user.name "github-actions[bot]"
           git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git checkout -b documentation
           git add -f docs/
           git commit -m "Documentation update"
-          git push https://$USERNAME:$REPO_KEY@github.com/remortalite/Uniq_cpp_OOP.git origin/documentation
+          git rebase main
+          git push https://$USERNAME:$REPO_KEY@github.com/remortalite/Uniq_cpp_OOP.git documentation
         env:
           REPO_KEY: ${{secrets.PUSH_TOKEN}}
           USERNAME: github-actions[bot]
