@@ -91,9 +91,11 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp
 	$(CC) $(CFLAGS) $(LDFLAGS) -c $< -o $@
 
 format: .clang-format
-	find $(SRD_DIR) test -name "*.[ch]pp" | xargs $(CLANG_FORMAT) $(CLANG_FORMAT_FLAGS)
-	find $(INCLUDE_DIR) test -name "*.[ch]pp" | xargs $(CLANG_FORMAT) $(CLANG_FORMAT_FLAGS)
-	find $(APPS_DIR) test -name "*.[ch]pp" | xargs $(CLANG_FORMAT) $(CLANG_FORMAT_FLAGS)
+	find $(SRD_DIR) -name "*.[ch]pp" | xargs $(CLANG_FORMAT) $(CLANG_FORMAT_FLAGS)
+	find $(INCLUDE_DIR) -name "*.[ch]pp" | xargs $(CLANG_FORMAT) $(CLANG_FORMAT_FLAGS)
+	find $(APPS_DIR) -name "*.[ch]pp" | xargs $(CLANG_FORMAT) $(CLANG_FORMAT_FLAGS)
+	find $(TEST_DIR) -name "*.[ch]pp" | xargs $(CLANG_FORMAT) $(CLANG_FORMAT_FLAGS)
+	find other/doxygen -name "*.dox" | xargs $(CLANG_FORMAT) $(CLANG_FORMAT_FLAGS)
 	@echo Done!
 
 .clang-format:

@@ -1,18 +1,17 @@
 /*!
-	\mainpage Project Uniq_cpp_OOP
-	
-	\section intro_sec Introduction
-	
-	This is just a repo with some experiments based on university course
-	about OOP and Programming. There used some additional technologies
-	like \c git, \c CI, \c googletest, \c etc.
-
-	\section intall_sec Installation
-
-	\code{.sh}
-	git clone https://github.com/remortalite/Uniq_cpp_OOP.git
-	cd Uniq_cpp_OOP/
-	make run FILE=apps/filename.cpp # there you can use one of the files
-									# from apps/ directory
-	\endcode
-*/
+ *  \mainpage Project Uniq_cpp_OOP
+ *
+ *  \section intro_sec Introduction
+ *
+ *  This is just a repo with some experiments based on university course
+ *  about OOP and Programming. There used some additional technologies
+ *  like \c git, \c CI, \c googletest, etc.
+ *
+ *  \section intall_sec Installation
+ *
+ *  \code{.sh}
+ *  git clone https://github.com/remortalite/Uniq_cpp_OOP.git
+ *  cd Uniq_cpp_OOP/
+ *  make run FILE=apps/filename.cpp # you can use one of the files from apps/
+ *  \endcode
+ */

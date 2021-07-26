@@ -5,7 +5,7 @@ PROJECT_LOGO           = docs/logo.png
 OUTPUT_DIRECTORY       = docs
 INPUT                  = ./src \
                          ./include \
-						 ./other/doxygen
+                         ./other/doxygen
 RECURSIVE              = YES
 EXCLUDE                = ./build \
                          ./docs \
