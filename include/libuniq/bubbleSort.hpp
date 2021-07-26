@@ -3,7 +3,8 @@
 
 #include <libuniq/Array.hpp>
 
-/*! \fn bubbleSort
+//! \file bubbleSort.hpp
+/*! \fn void bubbleSort(Arr &)
  *
  *  Bubble sort for Arr class
  *

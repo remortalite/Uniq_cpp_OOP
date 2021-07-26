@@ -3,7 +3,8 @@
 
 #include <libuniq/Array.hpp>
 
-/*! \fn insertSort
+//! \file insertSort.hpp
+/*! \fn void insertSort(Arr &)
  *
  *  \param[in,out] &array Link to the array to sort.
  */

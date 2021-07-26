@@ -12,3 +12,4 @@ EXCLUDE                = ./build \
                          ./obj
 HTML_OUTPUT            = .
 GENERATE_LATEX         = NO
+CLANG_ASSISTED_PARSING = YES
